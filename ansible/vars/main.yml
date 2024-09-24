@@ -1,0 +1,15 @@
+rustup_url: https://sh.rustup.rs
+rustup_script: /tmp/sh.rustup.rs
+cargo_env_script: "$HOME/.cargo/env"
+project_src_path: /vagrant/project
+project_target_path: /opt/project_site
+service_file: /etc/systemd/system/site.service
+project_path: /home/asus/actions-runner/_work/home_site/home_site/
+
+#[deploy_prod:vars]
+container_name: "home_site"
+container_port: "8080"
+host_port: "8080"
+host_volume_path: "/opt/project_site/data"
+container_volume_path: "/app/data"
+docker_image: "ghcr.io/{{ lookup('env', 'OWNER_LC') }}/{{ lookup('env', 'IMAGE_NAME') }}:{{ lookup('env', 'steps.tag_version.outputs.new_tag') }}"

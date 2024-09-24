@@ -1,0 +1,5 @@
+[default]
+127.0.0.1 ansible_connection=local ansible_user=vagrant ansible_private_key_file=.vagrant/machines/default/virtualbox/private_key
+
+[Production]
+localhost ansible_connection=local ansible_user=asus

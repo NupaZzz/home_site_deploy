@@ -1,0 +1,12 @@
+### TERRAFORM ###
+.terraform
+.terraform.*
+terraform.tfstate
+terraform.tfstate.*
+secrets.tfvars
+
+### VSCODE ###
+.vscode
+
+### VAGRANT ###
+/vagrant/.vagrant
