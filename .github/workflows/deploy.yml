@@ -27,7 +27,7 @@ jobs:
 
   deploy:
     runs-on: self-hosted
-
+    needs: lint
     steps:
       - name: Deploy project
         run: echo "Deploying project"
@@ -43,7 +43,7 @@ jobs:
       - name: Run Ansible Playbook
         uses: dawidd6/action-ansible-playbook@v2
         with:
-          playbook: deploy.yml
+          playbook: playbook.yml
           directory: ansible
           inventory: |
             [Production]
