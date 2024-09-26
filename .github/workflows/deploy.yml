@@ -1,9 +1,9 @@
 name: Deploy project
 
 on:
-    push:
-      branches:
-        - "**"
+  push:
+    branches:
+      - "**"
 
 jobs:
   lint:
@@ -35,10 +35,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v1
-        with:
-          terraform_version: 1.9.6
+      - name: Install Ansible
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ansible
 
       - name: Run Ansible Playbook
         uses: dawidd6/action-ansible-playbook@v2
@@ -48,4 +48,3 @@ jobs:
           inventory: |
             [Production]
             localhost ansible_connection=local
-        
