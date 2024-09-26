@@ -44,3 +44,6 @@
           bucket: terraform-state
           key: terraform.tfstate
           region: us-east-1
+        vars:
+          git_token: "{{ git_token }}"
+        

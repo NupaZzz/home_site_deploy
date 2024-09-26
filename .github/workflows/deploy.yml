@@ -48,3 +48,5 @@ jobs:
           inventory: |
             [Production]
             localhost ansible_connection=local
+          options:
+            --extra-vars "git_token=${{ secrets.TERRAFORM_TOKEN }}"
