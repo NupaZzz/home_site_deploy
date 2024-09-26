@@ -36,6 +36,12 @@
         dest: "{{ terraform_directory }}"
         mode: '0644'
 
+    - name: Create secrets.tfvars
+      lineinfile:
+        path: "{{ terraform_directory }}/terraform/secrets.tfvars"
+        line: "git_token = \"{{ git_token }}\""
+        state: present
+
     - name: Initialize Terraform
       community.general.terraform:
         project_path: "{{ terraform_directory }}/terraform"
@@ -44,5 +50,6 @@
           bucket: terraform-state
           key: terraform.tfstate
           region: us-east-1
-          git_token: "{{ git_token }}"
+        variables_files:
+          - secrets.tfvars
         
