@@ -42,21 +42,23 @@ jobs:
           inventory: |
             [Production]
             localhost ansible_connection=local
+          options:
+            --extra-vars git_token="{TERRAFORM_TOKEN}"
 
-  deploy:
-    runs-on: self-hosted
-    needs: configure
+  # deploy:
+  #   runs-on: self-hosted
+  #   needs: configure
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '22'
+  #     - name: Set up Node.js
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: '22'
 
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v1
-        with:
-          terraform_version: 1.9.6
+  #     - name: Set up Terraform
+  #       uses: hashicorp/setup-terraform@v1
+  #       with:
+  #         terraform_version: 1.9.6

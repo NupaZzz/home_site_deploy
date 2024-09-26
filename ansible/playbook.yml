@@ -6,6 +6,7 @@
   become_user: root
   vars:
     terraform_directory: "/opt/terraform"
+    git_token: "{{ git_token }}"
 
   tasks:
     - name: Add HashiCorp GPG key
