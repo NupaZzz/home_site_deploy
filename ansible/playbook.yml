@@ -36,12 +36,6 @@
         dest: "{{ terraform_directory }}"
         mode: '0644'
 
-    - name: Validate Terraform configuration
-      command: >
-        terraform validate
-      args:
-        chdir: "{{ terraform_directory }}/terraform"
-
     - name: Initialize Terraform
       community.general.terraform:
         project_path: "{{ terraform_directory }}/terraform"
@@ -50,6 +44,5 @@
           bucket: terraform-state
           key: terraform.tfstate
           region: us-east-1
-        variables:
           git_token: "{{ git_token }}"
         
