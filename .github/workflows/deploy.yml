@@ -60,15 +60,3 @@ jobs:
         uses: hashicorp/setup-terraform@v1
         with:
           terraform_version: 1.9.6
-
-      - name: Terraform Init
-        run: terraform init
-        working-directory: terraform
-  
-      - name: Terraform Plan
-        run: terraform plan -var "git_token=${{ secrets.TERRAFORM_TOKEN }}"
-        working-directory: terraform
-
-      - name: Terraform Apply
-        run: terraform apply -var "git_token=${{ secrets.TERRAFORM_TOKEN }}" -auto-approve
-        working-directory: terraform
