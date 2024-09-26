@@ -9,13 +9,6 @@
     git_token: "{{ lookup('env', 'TERRAFORM_TOKEN') }}"
 
   tasks:
-    - name: Ensure terraform_directory
-      ansible.builtin.file:
-        path: "{{ terraform_directory }}"
-        state: directory
-        mode: '0755'
-        owner: root
-
     - name: Add HashiCorp GPG key
       ansible.builtin.apt_key:
         url: https://apt.releases.hashicorp.com/gpg
