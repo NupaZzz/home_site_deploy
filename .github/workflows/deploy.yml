@@ -10,13 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Lint terraform
-        run: echo "Lint terraform plan"
-
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Linting terraform  
+      - name: Linting Terraform  
         uses: terraform-linters/setup-tflint@v4
         with:
           tflint_version: latest
@@ -25,13 +22,10 @@ jobs:
         run: tflint
         working-directory: terraform
 
-  deploy:
+  configure:
     runs-on: self-hosted
     needs: lint
     steps:
-      - name: Deploy project
-        run: echo "Deploying project"
-
       - name: Checkout repository
         uses: actions/checkout@v3
 
@@ -48,5 +42,33 @@ jobs:
           inventory: |
             [Production]
             localhost ansible_connection=local
-          options:
-            --extra-vars "git_token=${{ secrets.TERRAFORM_TOKEN }}"
+
+  deploy:
+    runs-on: self-hosted
+    needs: configure
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22'
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.9.6
+
+      - name: Terraform Init
+        run: terraform init
+        working-directory: terraform
+  
+      - name: Terraform Plan
+        run: terraform plan -var "git_token=${{ secrets.TERRAFORM_TOKEN }}"
+        working-directory: terraform
+
+      - name: Terraform Apply
+        run: terraform apply -var "git_token=${{ secrets.TERRAFORM_TOKEN }}" -auto-approve
+        working-directory: terraform

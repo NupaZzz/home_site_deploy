@@ -6,7 +6,6 @@
   become_user: root
   vars:
     terraform_directory: "/opt/terraform"
-    git_token: "{{ lookup('env', 'TERRAFORM_TOKEN') }}"
 
   tasks:
     - name: Add HashiCorp GPG key
@@ -25,9 +24,11 @@
       ansible.builtin.apt:
         update_cache: yes
 
-    - name: Install Terraform
+    - name: Install Packages
       ansible.builtin.apt:
-        name: terraform
+        name: 
+          - terraform
+          - docker.io
         state: present
 
     - name: Copy Terraform files to localhost
@@ -35,26 +36,3 @@
         src: /home/asus/actions-runner_1/_work/home_site_deploy/home_site_deploy/terraform
         dest: "{{ terraform_directory }}"
         mode: '0644'
-
-    - name: Ensure secrets.tfvars file exists
-      ansible.builtin.file:
-        path: "{{ terraform_directory }}/terraform/secrets.tfvars"
-        state: touch
-
-    - name: Create secrets.tfvars
-      lineinfile:
-        path: "{{ terraform_directory }}/terraform/secrets.tfvars"
-        line: "git_token = \"{{ git_token }}\""
-        state: present
-
-    - name: Initialize Terraform
-      community.general.terraform:
-        project_path: "{{ terraform_directory }}/terraform"
-        force_init: true
-        backend_config:
-          bucket: terraform-state
-          key: terraform.tfstate
-          region: us-east-1
-        variables_files:
-          - secrets.tfvars
-        
