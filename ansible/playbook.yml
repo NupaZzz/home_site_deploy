@@ -36,6 +36,11 @@
         dest: "{{ terraform_directory }}"
         mode: '0644'
 
+    - name: Ensure secrets.tfvars file exists
+      ansible.builtin.file:
+        path: "{{ terraform_directory }}/terraform/secrets.tfvars"
+        state: touch
+
     - name: Create secrets.tfvars
       lineinfile:
         path: "{{ terraform_directory }}/terraform/secrets.tfvars"
