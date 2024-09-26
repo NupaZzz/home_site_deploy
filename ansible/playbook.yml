@@ -1,0 +1,32 @@
+---
+- name: Deploy Terraform
+  hosts: localhost
+  gather_facts: no
+  become: true
+  become_user: root
+  vars:
+    terraform_directory: "/opt/terraform"
+    git_token: "{{ lookup('env', 'TERRAFORM_TOKEN') }}"
+
+  tasks:
+    - name: Ensure terraform_directory
+      ansible.builtin.file:
+        path: "{{ terraform_directory }}"
+        state: directory
+        mode: 0755
+        owner: root
+
+    - name: Copy Terraform files to localhost
+      copy:
+        src: /local/path/to/your/terraform/files/
+        dest: "{{ terraform_directory }}"
+        mode: '0644'
+
+    - name: Initialize Terraform
+      community.general.terraform:
+        project_path: {{ terraform_directory }}
+        force_init: true
+        backend_config:
+          bucket: terraform-state
+          key: terraform.tfstate
+          region: us-east-1

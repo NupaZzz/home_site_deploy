@@ -1,0 +1,42 @@
+name: Deploy project
+
+on:
+    push:
+      branches:
+        - "**"
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Lint terraform
+        run: echo "Lint terraform plan"
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Linting terraform  
+        uses: terraform-linters/setup-tflint@v4
+        with:
+          tflint_version: latest
+      
+      - name: Run TFLint
+        run: tflint
+        working-directory: terraform
+
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Deploy project
+        run: echo "Deploying project"
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.9.6
+        
