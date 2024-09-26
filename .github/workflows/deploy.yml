@@ -43,7 +43,7 @@ jobs:
             [Production]
             localhost ansible_connection=local
           options:
-            --extra-vars git_token="{TERRAFORM_TOKEN}"
+            --extra-vars git_token="${TERRAFORM_TOKEN}"
 
   # deploy:
   #   runs-on: self-hosted
