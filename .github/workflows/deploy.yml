@@ -22,9 +22,10 @@ jobs:
         run: tflint
         working-directory: terraform
 
-  configure:
+  configure_and_deploy:
     runs-on: self-hosted
     needs: lint
+    if: github.ref == 'refs/heads/main'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
