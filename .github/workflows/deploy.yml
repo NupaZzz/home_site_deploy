@@ -26,40 +26,26 @@ jobs:
     runs-on: self-hosted
     needs: lint
     if: github.ref == 'refs/heads/main'
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Install Ansible
+      - name: Install Ansible if not already installed
         run: |
-          sudo apt-get update
-          sudo apt-get install -y ansible
+          if ! ansible --version &> /dev/null; then
+            sudo apt-get update
+            sudo apt-get install -y ansible
+          else
+            echo "Ansible is already installed"
+          fi
 
       - name: Run Ansible Playbook
         uses: dawidd6/action-ansible-playbook@v2
         with:
-          playbook: playbook.yml
-          directory: ansible
+          playbook: ansible/playbook.yml
           inventory: |
             [Production]
             localhost ansible_connection=local
-          options:
-            --extra-vars git_token="${{ secrets.TERRAFORM_TOKEN }}"
-
-  # deploy:
-  #   runs-on: self-hosted
-  #   needs: configure
-
-  #   steps:
-  #     - name: Checkout repository
-  #       uses: actions/checkout@v3
-
-  #     - name: Set up Node.js
-  #       uses: actions/setup-node@v3
-  #       with:
-  #         node-version: '22'
-
-  #     - name: Set up Terraform
-  #       uses: hashicorp/setup-terraform@v1
-  #       with:
-  #         terraform_version: 1.9.6
+          options: >
+            --extra-vars "git_token=${{ secrets.TERRAFORM_TOKEN }}"
