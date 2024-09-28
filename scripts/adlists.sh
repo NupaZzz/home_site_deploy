@@ -26,6 +26,12 @@ ADLISTS=(
     "https://blocklistproject.github.io/Lists/dnsmasq-version/redirect-dnsmasq.txt"
     "https://blocklistproject.github.io/Lists/alt-version/redirect-nl.txt"
     "https://blocklistproject.github.io/Lists/redirect.txt"
+    "https://blocklistproject.github.io/Lists/adguard/tiktok-ags.txt"
+    "https://blocklistproject.github.io/Lists/adguard/abuse-ags.txt"
+    "https://blocklistproject.github.io/Lists/adguard/drugs-ags.txt"
+    "https://blocklistproject.github.io/Lists/adguard/tracking-ags.txt"
+    "https://blocklistproject.github.io/Lists/adguard/scam-ags.txt"
+    "https://blocklistproject.github.io/Lists/adguard/facebook-ags.txt"
 )
 
 # Function to add adlist

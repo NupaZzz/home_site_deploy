@@ -49,7 +49,7 @@ resource "docker_container" "pihole" {
   env = [
     "TZ=Europe/Minsk",
     "WEBPASSWORD=1234567890abcdef",
-    "DNSMASQ_LISTENING=all",
+    "DNSMASQ_LISTENING=single",
     "DNS_FQDN_REQUIRED=true",
     "DNS_BOGUS_PRIV=true",
     "DNSSEC=true",
