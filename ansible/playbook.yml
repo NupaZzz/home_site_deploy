@@ -66,3 +66,9 @@
       args:
         chdir: "{{ terraform_directory }}/terraform"
       async: 60
+
+    - name: Make scripts executable in docker
+      community.docker.docker_container_exec:
+        container: pihole
+        command: chmod +x 10-adlists.sh
+        chdir: /etc/cont-init.d
