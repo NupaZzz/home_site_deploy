@@ -21,6 +21,7 @@ resource "docker_container" "pihole" {
   name  = "pihole"
   restart = "unless-stopped"
   depends_on = [docker_image.pihole]
+  cmd = ["/etc/cont-init.d/10-adlists.sh"]
 
   ports {
     internal = 53
