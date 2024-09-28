@@ -4,7 +4,6 @@
   gather_facts: yes
   become: true
   become_user: root
-  verbose: vv
   vars:
     terraform_directory: "/opt/terraform"
     git_token: "{{ git_token }}"
