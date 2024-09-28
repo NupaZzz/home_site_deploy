@@ -87,6 +87,15 @@
       retries: 3
       delay: 5
 
-    - name: down VPN connection
-      command: nmcli con down "VPN 1"
-      ignore_errors: true
+    - name: Make gravity.sh executable
+      ansible.builtin.file:
+        path: "{{ terraform_directory }}/scripts/gravity.sh"
+        mode: '0755'
+
+    - name: Add "pihole update gravity" script to cron
+      cron:
+        name: "pihole-update-gravity"
+        user: root
+        minute: "0"
+        hour: "0"
+        job: "{{ terraform_directory }}/scripts/gravity.sh"
