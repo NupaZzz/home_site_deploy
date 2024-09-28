@@ -9,15 +9,18 @@
     git_token: "{{ git_token }}"
 
   tasks:
-    - name: add secrets to vpn_password
+    - name: Add secrets to vpn configuration
       lineinfile: 
-        path: "/opt/vpn_1"
-        line: "vpn.secrets.Xauth password:{{ vpn_password }}"
+        path: "/opt/vpn_secrets.conf"
+        line: "{{ item.line }}"
         state: present
         create: true
+      with_items:
+        - { line: "vpn.secrets.Xauth password:{{ vpn_password }}" }
+        - { line: "vpn.secrets.preshared-key:{{ vpn_psk }}" }
 
     - name: nmcli con up
-      command: nmcli con up "VPN 1" passwd-file /opt/vpn_1
+      command: nmcli con up "VPN 1" passwd-file /opt/vpn_secrets.conf
 
     - name: Add HashiCorp GPG key
       ansible.builtin.apt_key:
