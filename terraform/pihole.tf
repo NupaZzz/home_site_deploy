@@ -24,13 +24,13 @@ resource "docker_container" "pihole" {
 
   ports {
     internal = 53
-    external = 53
+    external = 5354
     protocol = "tcp"
   }
 
   ports {
     internal = 53
-    external = 53
+    external = 5354
     protocol = "udp"
   }
 
