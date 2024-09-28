@@ -12,7 +12,7 @@ resource "null_resource" "remove_pihole_image" {
 }
 
 resource "docker_image" "pihole" {
-  name = "${pihole_container_name}/${pihole_container_name}:latest"
+  name = "pihole/pihole:latest"
   depends_on = [null_resource.remove_pihole_image]
 }
 
