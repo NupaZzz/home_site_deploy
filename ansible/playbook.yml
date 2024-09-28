@@ -58,3 +58,5 @@
       command: terraform apply -var "git_token={{ git_token }}" -auto-approve
       args:
         chdir: "{{ terraform_directory }}/terraform"
+      async: 600
+      poll: 0
