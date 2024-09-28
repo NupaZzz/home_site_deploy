@@ -1,11 +1,26 @@
+resource "null_resource" "remove_pihole_container" {
+  provisioner "local-exec" {
+    command = "docker rm -f pihole || true"
+  }
+}
+
+resource "null_resource" "remove_pihole_image" {
+  provisioner "local-exec" {
+    command = "docker rmi pihole/pihole:latest || true"
+  }
+  depends_on = [null_resource.remove_pihole_container]
+}
+
 resource "docker_image" "pihole" {
   name = "pihole/pihole:latest"
+  depends_on = [null_resource.remove_pihole_image]
 }
 
 resource "docker_container" "pihole" {
   image = docker_image.pihole.name
   name  = "pihole"
   restart = "unless-stopped"
+  depends_on = [docker_image.pihole]
 
   ports {
     internal = 53
@@ -49,7 +64,7 @@ resource "docker_container" "pihole" {
   cpu_shares = 512
 
   volumes {
-    host_path      = "/opt/scripts/adlists.sh"
+    host_path      = "/opt/terraform/scripts/adlists.sh"
     container_path = "/etc/cont-init.d/10-adlists.sh"
   }
 }
