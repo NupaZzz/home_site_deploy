@@ -40,12 +40,12 @@ jobs:
             echo "Ansible is already installed"
           fi
 
-          - name: Run Ansible Playbook
-          uses: dawidd6/action-ansible-playbook@v2
-          with:
-            playbook: ansible/playbook.yml
-            inventory: |
-              [Production]
-              localhost ansible_connection=local
-            options: >
-              --extra-vars "git_token=${{ secrets.TERRAFORM_TOKEN }} vpn_password=${{ secrets.VPN_PASSWORD }} vpn_psk=${{ secrets.VPN_PSK }}"
+      - name: Run Ansible Playbook
+        uses: dawidd6/action-ansible-playbook@v2
+        with:
+          playbook: ansible/playbook.yml
+          inventory: |
+            [Production]
+            localhost ansible_connection=local
+          options: >
+            --extra-vars "git_token=${{ secrets.TERRAFORM_TOKEN }} vpn_password=${{ secrets.VPN_PASSWORD }} vpn_psk=${{ secrets.VPN_PSK }}"
