@@ -20,9 +20,10 @@
         - { line: "vpn.secrets.preshared-key:{{ vpn_psk }}" }
 
     - name: Check if VPN is already connected
-      command: nmcli con show --active | grep "VPN 1"
+      command: nmcli con show --active | grep -q "VPN 1"
       register: vpn_status
       ignore_errors: true
+      failed_when: false
 
     - name: Connect to VPN if not already connected
       command: nmcli con up "VPN 1" passwd-file /opt/vpn_secrets.conf
