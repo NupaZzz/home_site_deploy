@@ -99,3 +99,11 @@
         minute: "0"
         hour: "0"
         job: "{{ terraform_directory }}/scripts/gravity.sh"
+    
+    - name: Ensure /var/log/pihole directory exists
+      ansible.builtin.file:
+        path: /var/log/pihole
+        state: directory
+        owner: root
+        group: root
+        mode: '0755'
