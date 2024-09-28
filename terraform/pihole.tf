@@ -12,13 +12,13 @@ resource "null_resource" "remove_pihole_image" {
 }
 
 resource "docker_image" "pihole" {
-  name = "pihole/pihole:latest"
+  name = "${pihole_container_name}/${pihole_container_name}:latest"
   depends_on = [null_resource.remove_pihole_image]
 }
 
 resource "docker_container" "pihole" {
   image = docker_image.pihole.name
-  name  = "pihole"
+  name  = var.pihole_container_name
   restart = "unless-stopped"
   depends_on = [docker_image.pihole]
 
@@ -49,11 +49,11 @@ resource "docker_container" "pihole" {
   env = [
     "TZ=Europe/Minsk",
     "WEBPASSWORD=1234567890abcdef",
-    "DNSMASQ_LISTENING=all",
+    "DNSMASQ_LISTENING=eth0",
     "DNS_FQDN_REQUIRED=true",
     "DNS_BOGUS_PRIV=true",
     "DNSSEC=true",
-    "PIHOLE_DNS_=1.1.1.1;1.0.0.1"
+    "PIHOLE_DNS_=\"1.1.1.1;1.0.0.1\""
   ]
 
   capabilities {
@@ -66,5 +66,10 @@ resource "docker_container" "pihole" {
   volumes {
     host_path      = "/opt/terraform/scripts/adlists.sh"
     container_path = "/etc/cont-init.d/10-adlists.sh"
+  }
+
+  networks_advanced {
+    name           = var.docker_app_network
+    ipv4_address   = var.pihole_container_ip
   }
 }

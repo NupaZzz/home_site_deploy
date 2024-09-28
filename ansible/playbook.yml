@@ -44,13 +44,6 @@
         dest: "{{ terraform_directory }}"
         mode: '0644'
 
-    - name: Make scripts executable
-      ansible.builtin.file:
-        path: "{{ terraform_directory }}/scripts/*"
-        state: directory
-        mode: '0755'
-        recurse: yes
-
     - name: Terraform Init
       command: terraform init
       args:

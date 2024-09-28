@@ -29,3 +29,7 @@ prom_container_ip       = "172.18.0.11"
 docker_app_network       = "app_network"
 docker_driver            = "bridge"
 docker_subnet            = "172.18.0.0/16"
+
+### PIHOLE VARS ###
+pihole_container_name   = "pihole"
+pihole_container_ip     = "172.18.0.12"

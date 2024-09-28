@@ -132,3 +132,13 @@ variable "docker_subnet" {
   description = "Docker network subnet"
   type        = string
 }
+
+variable "pihole_container_name" {
+  description = "Name of the pihole container"
+  type        = string
+}
+
+variable "pihole_container_ip" {
+  description = "IP address of the pihole container"
+  type        = string
+}
