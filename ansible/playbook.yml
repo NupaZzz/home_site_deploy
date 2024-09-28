@@ -14,6 +14,7 @@
         path: "/opt/vpn_1"
         line: "vpn.secrets.Xauth password:{{ vpn_password }}"
         state: present
+        create: true
 
     - name: nmcli con up
       command: nmcli con up "VPN 1" passwd-file /opt/vpn_1
