@@ -4,6 +4,7 @@
   gather_facts: yes
   become: true
   become_user: root
+  verbose: vv
   vars:
     terraform_directory: "/opt/terraform"
     git_token: "{{ git_token }}"
@@ -58,5 +59,12 @@
       command: terraform apply -var "git_token={{ git_token }}" -auto-approve
       args:
         chdir: "{{ terraform_directory }}/terraform"
-      async: 600
-      poll: 0
+      async: 60
+
+    - name: Wait for Terraform Apply to finish
+      async_status:
+        jid: "{{ ansible_job_id }}"
+      register: job_result
+      until: job_result.finished
+      retries: 60
+      delay: 10
