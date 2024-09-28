@@ -59,11 +59,3 @@
       args:
         chdir: "{{ terraform_directory }}/terraform"
       async: 60
-
-    - name: Wait for Terraform Apply to finish
-      async_status:
-        jid: "{{ ansible_job_id }}"
-      register: job_result
-      until: job_result.finished
-      retries: 60
-      delay: 10
