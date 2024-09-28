@@ -44,6 +44,14 @@
         dest: "{{ terraform_directory }}"
         mode: '0644'
 
+    - name: Systemd-resolver disable
+      ansible.builtin.shell: systemctl disable systemd-resolved
+      ignore_errors: true
+
+    - name: Systemd-resolver stop
+      ansible.builtin.shell: systemctl stop systemd-resolved
+      ignore_errors: true
+
     - name: Terraform Init
       command: terraform init
       args:
