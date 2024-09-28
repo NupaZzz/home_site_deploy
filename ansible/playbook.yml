@@ -25,7 +25,7 @@
       ignore_errors: true
 
     - name: Connect to VPN if not already connected
-      command: nmcli con up "VPN 1" --passwd-file /opt/vpn_secrets.conf
+      command: nmcli con up "VPN 1" passwd-file /opt/vpn_secrets.conf
       when: vpn_status.rc != 0
 
     - name: Add HashiCorp GPG key
