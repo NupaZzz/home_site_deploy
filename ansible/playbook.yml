@@ -46,10 +46,9 @@
 
     - name: Make scripts executable
       ansible.builtin.file:
-        path: "{{ terraform_directory }}/scripts/*"
-        state: directory
+        path: "/etc/cont-init.d/10-adlists.sh"
+        state: file
         mode: '0755'
-        recurse: yes
 
     - name: Terraform Init
       command: terraform init
