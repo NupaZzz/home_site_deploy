@@ -9,8 +9,12 @@
     git_token: "{{ git_token }}"
 
   tasks:
-    - name: add VPN connection
-      command: nmcli con up "VPN 1"
+    - name: Add VPN connection
+      community.network.nmcli:
+        state: up
+        name: "VPN 1"
+        password: "{{ vpn_password }}"
+        psk: "{{ vpn_psk }}"
 
     - name: Add HashiCorp GPG key
       ansible.builtin.apt_key:
