@@ -38,6 +38,12 @@
         dest: "{{ terraform_directory }}"
         mode: '0644'
 
+    - name: Copy scripts from pihole to localhost
+      ansible.builtin.copy:
+        src: /home/asus/actions-runner_1/_work/home_site_deploy/home_site_deploy/scripts
+        dest: "{{ terraform_directory }}"
+        mode: '0644'
+
     - name: Terraform Init
       command: terraform init
       args:
