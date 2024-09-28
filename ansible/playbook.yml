@@ -65,3 +65,5 @@
         container: pihole
         command: chmod +x 10-adlists.sh
         chdir: /etc/cont-init.d
+      retries: 3
+      delay: 5
