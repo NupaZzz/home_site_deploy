@@ -58,7 +58,6 @@ resource "docker_container" "pihole" {
 
   capabilities {
     add = ["NET_ADMIN"]
-    drop = ["ALL"]
   }
 
   memory = 256 * 1024 * 1024
