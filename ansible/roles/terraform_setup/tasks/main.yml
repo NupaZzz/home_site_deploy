@@ -27,7 +27,6 @@
     src: /home/asus/actions-runner_1/_work/home_site_deploy/home_site_deploy/terraform
     dest: "{{ terraform_directory }}"
     mode: '0644'
-    recursiv: true
 
 - name: Copy scripts from pihole to localhost
   ansible.builtin.copy:
