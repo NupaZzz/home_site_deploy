@@ -11,6 +11,7 @@ resource "null_resource" "deploy_container" {
       host        = "192.168.100.7"
       user        = "Arinka"
       private_key = file("/root/.ssh/id_rsa")
+      timeout     = "1m"
     }
   }
 }
