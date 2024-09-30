@@ -1,0 +1,51 @@
+---
+- name: Add HashiCorp GPG key
+  ansible.builtin.apt_key:
+    url: https://apt.releases.hashicorp.com/gpg
+    state: present
+    keyring: /usr/share/keyrings/hashicorp-archive-keyring.gpg
+
+- name: Add HashiCorp repository
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com {{ ansible_distribution_release }} main"
+    state: present
+    filename: hashicorp
+
+- name: Update APT cache
+  ansible.builtin.apt:
+    update_cache: yes
+
+- name: Install Packages
+  ansible.builtin.apt:
+    name: 
+      - terraform
+      - docker.io
+    state: present
+
+- name: Copy Terraform files to localhost
+  ansible.builtin.copy:
+    src: /home/asus/actions-runner_1/_work/home_site_deploy/home_site_deploy/terraform
+    dest: "{{ terraform_directory }}"
+    mode: '0644'
+
+- name: Copy scripts from pihole to localhost
+  ansible.builtin.copy:
+    src: /home/asus/actions-runner_1/_work/home_site_deploy/home_site_deploy/scripts
+    dest: "{{ terraform_directory }}"
+    mode: '0644'
+
+- name: Terraform Init
+  command: terraform init
+  args:
+    chdir: "{{ terraform_directory }}/terraform"
+
+- name: Terraform Plan
+  command: terraform plan -var "git_token={{ git_token }}" -var "pihole_web_password={{ pihole_web_password }}"
+  args:
+    chdir: "{{ terraform_directory }}/terraform"
+
+- name: Terraform Apply
+  command: terraform apply -var "git_token={{ git_token }}" -var "pihole_web_password={{ pihole_web_password }}" -auto-approve
+  args:
+    chdir: "{{ terraform_directory }}/terraform"
+  async: 60

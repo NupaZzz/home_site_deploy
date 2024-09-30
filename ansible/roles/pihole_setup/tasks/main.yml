@@ -1,0 +1,29 @@
+---
+- name: Make scripts executable in docker
+  community.docker.docker_container_exec:
+    container: pihole
+    command: chmod +x 10-adlists.sh
+    chdir: /etc/cont-init.d
+  retries: 3
+  delay: 5
+
+- name: Make gravity.sh executable
+  ansible.builtin.file:
+    path: "{{ terraform_directory }}/scripts/gravity.sh"
+    mode: '0755'
+
+- name: Add "pihole update gravity" script to cron
+  cron:
+    name: "pihole-update-gravity"
+    user: root
+    minute: "0"
+    hour: "0"
+    job: "{{ terraform_directory }}/scripts/gravity.sh"
+
+- name: Ensure /var/log/pihole directory exists
+  ansible.builtin.file:
+    path: /var/log/pihole
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'

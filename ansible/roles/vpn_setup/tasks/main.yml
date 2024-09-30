@@ -1,0 +1,23 @@
+---
+- name: Add secrets to vpn configuration
+  lineinfile: 
+    path: "/opt/vpn_secrets.conf"
+    line: "{{ item.line }}"
+    state: present
+    create: true
+  with_items:
+    - { line: "vpn.secrets.Xauth password:{{ vpn_password }}" }
+    - { line: "vpn.secrets.preshared-key:{{ vpn_psk }}" }
+
+- name: Check if VPN is already connected
+  shell: nmcli con show --active | grep -q "VPN 1"
+  register: vpn_status
+  ignore_errors: true
+  failed_when: false
+
+- name: Connect to VPN if not already connected
+  command: nmcli con up "VPN 1" passwd-file /opt/vpn_secrets.conf
+  when: vpn_status.rc != 0
+  register: vpn_connect
+  ignore_errors: true
+  failed_when: "'Connection 'VPN 1' is already active' not in vpn_connect.stderr"
