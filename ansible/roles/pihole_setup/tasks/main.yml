@@ -5,7 +5,7 @@
     command: chmod +x 10-adlists.sh
     chdir: /etc/cont-init.d
   retries: 3
-  delay: 5
+  delay: 10
 
 - name: Make gravity.sh executable
   ansible.builtin.file:
