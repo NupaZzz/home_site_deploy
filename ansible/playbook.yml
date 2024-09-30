@@ -72,7 +72,7 @@
         chdir: "{{ terraform_directory }}/terraform"
 
     - name: Terraform Plan
-      command: terraform plan -var "git_token={{ git_token }}"
+      command: terraform plan -var "git_token={{ git_token }} -var "pihole_web_password={{ var.pihole_web_password }}"
       args:
         chdir: "{{ terraform_directory }}/terraform"
 
