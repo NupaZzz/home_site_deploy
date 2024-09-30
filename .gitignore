@@ -10,3 +10,6 @@ secrets.tfvars
 
 ### VAGRANT ###
 /vagrant/.vagrant
+
+### tests ###
+/terraform/id_rsa.txt
