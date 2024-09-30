@@ -48,4 +48,4 @@ jobs:
             [Production]
             localhost ansible_connection=local
           options: >
-            --extra-vars "git_token=${{ secrets.TERRAFORM_TOKEN }} vpn_password=${{ secrets.VPN_PASSWORD }} vpn_psk=${{ secrets.VPN_PSK }}"
+            --extra-vars "git_token=${{ secrets.TERRAFORM_TOKEN }} vpn_password=${{ secrets.VPN_PASSWORD }} vpn_psk=${{ secrets.VPN_PSK }} pihole_web_password=${{ secrets.PIHOLE_WEB_PASSWORD }}"

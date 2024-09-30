@@ -48,7 +48,7 @@ resource "docker_container" "pihole" {
 
   env = [
     "TZ=Europe/Minsk",
-    "WEBPASSWORD=1234567890abcdef",
+    "WEBPASSWORD=${var.pihole_web_password}",
     "DNSMASQ_LISTENING=single",
     "DNS_FQDN_REQUIRED=true",
     "DNS_BOGUS_PRIV=true",
@@ -58,6 +58,7 @@ resource "docker_container" "pihole" {
 
   capabilities {
     add = ["NET_ADMIN"]
+    drop = ["ALL"]
   }
 
   memory = 256 * 1024 * 1024

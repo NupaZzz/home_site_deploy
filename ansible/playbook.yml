@@ -6,7 +6,6 @@
   become_user: root
   vars:
     terraform_directory: "/opt/terraform"
-    git_token: "{{ git_token }}"
 
   tasks:
     - name: Add secrets to vpn configuration
@@ -78,7 +77,7 @@
         chdir: "{{ terraform_directory }}/terraform"
 
     - name: Terraform Apply
-      command: terraform apply -var "git_token={{ git_token }}" -auto-approve
+      command: terraform apply -var "git_token={{ git_token }}" -var "WEBPASSWORD={{ var.pihole_web_password }}" -auto-approve
       args:
         chdir: "{{ terraform_directory }}/terraform"
       async: 60

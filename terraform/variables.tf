@@ -16,6 +16,7 @@ variable "image_tag" {
 variable "git_token" {
   description = "GitHub token for authentication"
   type        = string
+  sensitive   = true
 }
 
 variable "lower_login" {
@@ -140,5 +141,11 @@ variable "pihole_container_name" {
 
 variable "pihole_container_ip" {
   description = "IP address of the pihole container"
+  type        = string
+}
+
+variable "pihole_web_password" {
+  description = "Password for the pihole web interface"
+  sensitive   = true
   type        = string
 }
