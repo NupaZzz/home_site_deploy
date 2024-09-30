@@ -21,7 +21,7 @@ resource "docker_container" "pihole" {
   name        = var.pihole_container_name
   restart     = "unless-stopped"
   depends_on  = [docker_image.pihole]
-  hostname    = "home_site"
+  hostname    = "pihole_local"
 
   ports {
     internal = 53
