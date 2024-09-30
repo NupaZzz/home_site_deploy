@@ -52,8 +52,8 @@ resource "docker_container" "pihole" {
     "DNSMASQ_LISTENING=single",
     "DNS_FQDN_REQUIRED=true",
     "DNS_BOGUS_PRIV=true",
-    "DNSSEC=true",
-    "PIHOLE_DNS_=1.1.1.1;1.0.0.1"
+    "DNSSEC=${var.pihole_dnssec}",
+    "PIHOLE_DNS_=${var.pihole_dns}"
   ]
 
   capabilities {

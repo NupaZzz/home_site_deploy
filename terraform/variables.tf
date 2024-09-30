@@ -149,3 +149,13 @@ variable "pihole_web_password" {
   sensitive   = true
   type        = string
 }
+
+variable "pihole_dns" {
+  description = "DNS server for the pihole"
+  type        = string
+}
+
+variable "pihole_dnssec" {
+  description = "DNSSEC configuration for the pihole"
+  type        = string
+}

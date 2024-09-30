@@ -33,3 +33,5 @@ docker_subnet            = "172.18.0.0/16"
 ### PIHOLE VARS ###
 pihole_container_name   = "pihole"
 pihole_container_ip     = "172.18.0.12"
+pihole_dns              = "1.1.1.1;1.0.0.1"
+pihole_dnssec           = "true"
