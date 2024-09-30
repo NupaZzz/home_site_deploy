@@ -159,3 +159,13 @@ variable "pihole_dnssec" {
   description = "DNSSEC configuration for the pihole"
   type        = string
 }
+
+variable "pihole_volumes_host" {
+  description = "Host path for the pihole volumes"
+  type        = string
+}
+
+variable "pihole_volumes_docker" {
+  description = "Container path for the pihole volumes"
+  type        = string
+}

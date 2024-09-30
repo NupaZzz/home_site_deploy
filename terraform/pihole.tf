@@ -53,7 +53,8 @@ resource "docker_container" "pihole" {
     "DNS_FQDN_REQUIRED=true",
     "DNS_BOGUS_PRIV=true",
     "DNSSEC=${var.pihole_dnssec}",
-    "PIHOLE_DNS_=${var.pihole_dns}"
+    "PIHOLE_DNS_=${var.pihole_dns}",
+    "WEBTHEME=default-darker"
   ]
 
   capabilities {
@@ -64,8 +65,8 @@ resource "docker_container" "pihole" {
   cpu_shares = 512
 
   volumes {
-    host_path      = "/opt/terraform/scripts/adlists.sh"
-    container_path = "/etc/cont-init.d/10-adlists.sh"
+    host_path      = var.pihole_volumes_host
+    container_path = var.pihole_volumes_docker
   }
 
   networks_advanced {
