@@ -1,11 +1,18 @@
 ---
+- name: Wait for the pihole container to be running
+  community.docker.docker_container_info:
+    name: pihole
+  register: pihole_info
+  until: pihole_info.container.State.Running
+  retries: 5
+  delay: 5
+
 - name: Make scripts executable in docker
   community.docker.docker_container_exec:
     container: pihole
     command: chmod +x 10-adlists.sh
     chdir: /etc/cont-init.d
-  retries: 3
-  delay: 10
+  when: pihole_info.container.State.Running
 
 - name: Make gravity.sh executable
   ansible.builtin.file:
