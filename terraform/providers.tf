@@ -15,10 +15,5 @@ terraform {
       source  = "hashicorp/local"
       version = "~> 2.5"
     }
-
-    ssh = {
-      source = "loafoe/ssh"
-      version = "~> 2.5"
-    }
   }
 }
