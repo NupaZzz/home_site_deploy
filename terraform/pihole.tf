@@ -17,10 +17,11 @@ resource "docker_image" "pihole" {
 }
 
 resource "docker_container" "pihole" {
-  image = docker_image.pihole.name
-  name  = var.pihole_container_name
-  restart = "unless-stopped"
-  depends_on = [docker_image.pihole]
+  image       = docker_image.pihole.name
+  name        = var.pihole_container_name
+  restart     = "unless-stopped"
+  depends_on  = [docker_image.pihole]
+  hostname    = "home_site"
 
   ports {
     internal = 53
