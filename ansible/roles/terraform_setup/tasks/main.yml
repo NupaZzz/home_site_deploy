@@ -27,6 +27,7 @@
     src: /home/asus/actions-runner_1/_work/home_site_deploy/home_site_deploy/terraform
     dest: "{{ terraform_directory }}"
     mode: '0644'
+    recursiv: true
 
 - name: Copy scripts from pihole to localhost
   ansible.builtin.copy:
@@ -37,15 +38,15 @@
 - name: Terraform Init
   command: terraform init
   args:
-    chdir: "{{ terraform_directory }}/terraform"
+    chdir: "{{ terraform_directory }}/terraform/laptop_server"
 
 - name: Terraform Plan
   command: terraform plan -var "git_token={{ git_token }}" -var "pihole_web_password={{ pihole_web_password }}"
   args:
-    chdir: "{{ terraform_directory }}/terraform"
+    chdir: "{{ terraform_directory }}/terraform/laptop_server"
 
 - name: Terraform Apply
   command: terraform apply -var "git_token={{ git_token }}" -var "pihole_web_password={{ pihole_web_password }}" -auto-approve
   args:
-    chdir: "{{ terraform_directory }}/terraform"
+    chdir: "{{ terraform_directory }}/terraform/laptop_server"
   async: 60
