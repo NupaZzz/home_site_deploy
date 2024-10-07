@@ -12,11 +12,12 @@ resource "null_resource" "remove_pihole_image" {
 }
 
 resource "docker_image" "pihole" {
-  name = "pihole/pihole:latest"
+  name       = "pihole/pihole:latest"
   depends_on = [null_resource.remove_pihole_image]
 }
 
 resource "docker_container" "pihole" {
+  provider    = docker.laptop_server
   image       = docker_image.pihole.name
   name        = var.pihole_container_name
   restart     = "unless-stopped"
@@ -24,27 +25,27 @@ resource "docker_container" "pihole" {
   hostname    = "pihole_local"
 
   ports {
-    internal = 53
-    external = 53
-    protocol = "tcp"
+    internal  = 53
+    external  = 53
+    protocol  = "tcp"
   }
 
   ports {
-    internal = 53
-    external = 53
-    protocol = "udp"
+    internal  = 53
+    external  = 53
+    protocol  = "udp"
   }
 
   ports {
-    internal = 67
-    external = 67
-    protocol = "udp"
+    internal  = 67
+    external  = 67
+    protocol  = "udp"
   }
 
   ports {
-    internal = 80
-    external = 80
-    protocol = "tcp"
+    internal  = 80
+    external  = 80
+    protocol  = "tcp"
   }
 
   env = [
@@ -59,11 +60,11 @@ resource "docker_container" "pihole" {
   ]
 
   capabilities {
-    add = ["NET_ADMIN"]
+    add            = ["NET_ADMIN"]
   }
 
-  memory = 256 * 1024 * 1024
-  cpu_shares = 512
+  memory           = 256 * 1024 * 1024
+  cpu_shares       = 512
 
   volumes {
     host_path      = var.pihole_volumes_host

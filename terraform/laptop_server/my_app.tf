@@ -16,7 +16,8 @@ resource "null_resource" "remove_existing_image" {
 }
 
 resource "docker_container" "my_app" {
-  depends_on = [null_resource.remove_existing_container]
+  depends_on      = [null_resource.remove_existing_container]
+  provider        = docker.laptop_server
 
   image           = docker_image.my_app.name
   name            = var.docker_name
