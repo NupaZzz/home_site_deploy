@@ -17,35 +17,35 @@ resource "docker_image" "pihole" {
 }
 
 resource "docker_container" "pihole" {
-  provider    = docker.laptop_server
-  image       = docker_image.pihole.name
-  name        = var.pihole_container_name
-  restart     = "unless-stopped"
-  depends_on  = [docker_image.pihole]
-  hostname    = "pihole_local"
+  provider   = docker.laptop_server
+  image      = docker_image.pihole.name
+  name       = var.pihole_container_name
+  restart    = "unless-stopped"
+  depends_on = [docker_image.pihole]
+  hostname   = "pihole_local"
 
   ports {
-    internal  = 53
-    external  = 53
-    protocol  = "tcp"
+    internal = 53
+    external = 53
+    protocol = "tcp"
   }
 
   ports {
-    internal  = 53
-    external  = 53
-    protocol  = "udp"
+    internal = 53
+    external = 53
+    protocol = "udp"
   }
 
   ports {
-    internal  = 67
-    external  = 67
-    protocol  = "udp"
+    internal = 67
+    external = 67
+    protocol = "udp"
   }
 
   ports {
-    internal  = 80
-    external  = 80
-    protocol  = "tcp"
+    internal = 80
+    external = 80
+    protocol = "tcp"
   }
 
   env = [
@@ -60,11 +60,11 @@ resource "docker_container" "pihole" {
   ]
 
   capabilities {
-    add            = ["NET_ADMIN"]
+    add = ["NET_ADMIN"]
   }
 
-  memory           = 256 * 1024 * 1024
-  cpu_shares       = 512
+  memory     = 256 * 1024 * 1024
+  cpu_shares = 512
 
   volumes {
     host_path      = var.pihole_volumes_host
@@ -72,7 +72,7 @@ resource "docker_container" "pihole" {
   }
 
   networks_advanced {
-    name           = var.docker_app_network
-    ipv4_address   = var.pihole_container_ip
+    name         = var.docker_app_network
+    ipv4_address = var.pihole_container_ip
   }
 }

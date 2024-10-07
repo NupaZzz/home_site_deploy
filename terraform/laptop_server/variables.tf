@@ -20,23 +20,23 @@ variable "git_token" {
 }
 
 variable "lower_login" {
-    description = "Github username for docker"
-    type        = string
+  description = "Github username for docker"
+  type        = string
 }
 
 variable "port" {
-    description = "Port for container"
-    type        = number
+  description = "Port for container"
+  type        = number
 }
 
 variable "docker_name" {
-    description = "Container name"
-    type        = string
+  description = "Container name"
+  type        = string
 }
 
 variable "docker_reg" {
-    description = "Docker registry"
-    type        = string
+  description = "Docker registry"
+  type        = string
 }
 
 variable "container_volume_path" {
