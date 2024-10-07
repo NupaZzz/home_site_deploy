@@ -48,4 +48,4 @@
   command: terraform apply -var "git_token={{ git_token }}" -var "pihole_web_password={{ pihole_web_password }}" -auto-approve
   args:
     chdir: "{{ terraform_directory }}/terraform/laptop_server"
-  async: 60
+  async: 600
