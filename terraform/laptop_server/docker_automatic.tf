@@ -30,6 +30,5 @@ resource "docker_container" "automatic" {
 
   env = {
     NVIDIA_VISIBLE_DEVICES = "all"
-    NVIDIA_DRIVER_CAPABILITIES = "compute,utility"
   }
 }
