@@ -22,4 +22,14 @@ resource "docker_container" "automatic" {
   image    = docker_image.automatic.name
   name     = "automatic"
   hostname = "automatic"
+
+  ports {
+    internal = 7860
+    external = 7860
+  }
+
+  env = {
+    NVIDIA_VISIBLE_DEVICES = "all"
+    NVIDIA_DRIVER_CAPABILITIES = "compute,utility"
+  }
 }
