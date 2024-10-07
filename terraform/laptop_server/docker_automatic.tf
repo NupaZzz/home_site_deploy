@@ -27,8 +27,4 @@ resource "docker_container" "automatic" {
     internal = 7860
     external = 7860
   }
-
-  env = {
-    NVIDIA_VISIBLE_DEVICES = "all"
-  }
 }
