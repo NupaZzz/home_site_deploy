@@ -69,7 +69,7 @@ jobs:
         with:
           push: true
           context: .
-          file: Dockerfiles/${{ env.IMAGE_NAME }}/Dockerfile
+          file: Dockerfiles/automatic1111/Dockerfile
           tags: |
             ghcr.io/${{ env.OWNER_LC }}/${{ env.IMAGE_NAME }}:${{ steps.tag_version.outputs.new_tag }}
             ghcr.io/${{ env.OWNER_LC }}/${{ env.IMAGE_NAME }}:latest
