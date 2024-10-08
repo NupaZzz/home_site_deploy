@@ -22,6 +22,7 @@ resource "docker_container" "automatic" {
   image    = docker_image.automatic.name
   name     = "automatic"
   hostname = "automatic"
+  gpus     = "all"
 
   ports {
     internal = 7860
