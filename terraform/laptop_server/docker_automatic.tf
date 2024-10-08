@@ -29,7 +29,7 @@ resource "docker_container" "automatic" {
     external = 8081
   }
 
-  environment = {
-    COMMANDLINE_ARGS = "--listen 0.0.0.0 --allow-code --xformers --skip-torch-cuda-test --no-half-vae --api --theme dark"
-  }
+  env = [
+    "COMMANDLINE_ARGS =--listen 0.0.0.0 --allow-code --xformers --skip-torch-cuda-test --no-half-vae --api --theme dark"
+  ]
 }
