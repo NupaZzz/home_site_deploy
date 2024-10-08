@@ -26,6 +26,10 @@ resource "docker_container" "automatic" {
 
   ports {
     internal = 7860
-    external = 7860
+    external = 8081
+  }
+
+  env = {
+    COMMANDLINE_ARGS = "--listen 0.0.0.0 --allow-code --xformers --skip-torch-cuda-test --no-half-vae --api --theme dark"
   }
 }
