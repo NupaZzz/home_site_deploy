@@ -30,6 +30,6 @@ resource "docker_container" "automatic" {
   }
 
   env = [
-    "COMMANDLINE_ARGS=--listen 0.0.0.0 --allow-code --xformers --skip-torch-cuda-test --no-half-vae --api --theme dark"
+    "COMMANDLINE_ARGS=--listen --allow-code --xformers --skip-torch-cuda-test --no-half-vae --api --theme dark"
   ]
 }
