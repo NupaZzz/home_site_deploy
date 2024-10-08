@@ -13,7 +13,7 @@ RUN apt-get update &&\
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Test config for git
-RUN git config --global core.compression 0 && git config http.postBuffer 524288000
+RUN git config --global http.postBuffer 524288000 && git config --global http.maxRequestBuffer 100M
 
 # Create a non-root user
 RUN useradd -m sduser
