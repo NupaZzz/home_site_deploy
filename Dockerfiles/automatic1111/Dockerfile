@@ -12,6 +12,9 @@ RUN apt-get update &&\
     google-perftools &&\
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
+# Test config for git
+RUN git config --global core.compression 0 && git config http.postBuffer 524288000
+
 # Create a non-root user
 RUN useradd -m sduser
 
