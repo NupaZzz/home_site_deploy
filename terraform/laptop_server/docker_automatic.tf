@@ -30,7 +30,7 @@ resource "docker_container" "automatic" {
   }
 
   env = [
-    "COMMANDLINE_ARGS=--listen --allow-code --xformers --skip-torch-cuda-test --no-half-vae --api --theme dark",
+    "COMMANDLINE_ARGS=--listen --allow-code --xformers --skip-torch-cuda-test --no-half-vae --api --theme dark --device-id 0,1",
     "CUDA_VISIBLE_DEVICES=1"
   ]
 
