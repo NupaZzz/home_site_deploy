@@ -30,11 +30,12 @@ resource "docker_container" "automatic" {
   }
 
   env = [
-    "COMMANDLINE_ARGS=--listen --allow-code --xformers --skip-torch-cuda-test --no-half-vae --api --theme dark"
+    "COMMANDLINE_ARGS=--listen --allow-code --xformers --skip-torch-cuda-test --no-half-vae --api --theme dark",
+    "CUDA_VISIBLE_DEVICES=1"
   ]
 
   volumes {
-    host_path = "C:\\Users\\Arinka\\stable-diffusion-webui\\models"
+    host_path      = "C:\\Users\\Arinka\\stable-diffusion-webui\\models"
     container_path = "/stable-diffusion-webui/models"
   }
 }
