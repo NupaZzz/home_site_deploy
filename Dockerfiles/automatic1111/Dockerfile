@@ -4,6 +4,7 @@ FROM python:3.10.6-slim-buster
 # Install required packages and bash
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
+    curl \
     debconf \
     wget \
     git \
