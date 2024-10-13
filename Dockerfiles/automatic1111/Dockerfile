@@ -1,9 +1,10 @@
+# Use the official slim Python image as a parent image
 FROM python:3.10.6-slim-buster
 
 # Install required packages and bash
-RUN apt-get update &&\
-    apt-get install -y\
-    debconf\
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    debconf \
     wget \
     git \
     python3-venv \
@@ -11,27 +12,25 @@ RUN apt-get update &&\
     libglib2.0-0 \
     bash \
     libtcmalloc-minimal4 \
-    google-perftools\
-    libgoogle-perftools-dev &&\
-    apt-get clean && rm -rf /var/lib/apt/lists/*
+    google-perftools \
+    libgoogle-perftools-dev && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-# Create a symlink for libtcmalloc
-# RUN ln -s /usr/lib/x86_64-linux-gnu/libtcmalloc_minimal.so.4 /usr/lib/x86_64-linux-gnu/libtcmalloc.so
-
-# Test config for git
-RUN git config --global http.postBuffer 524288000 && git config --global http.maxRequestBuffer 100M
+# Configure git to handle large files
+RUN git config --global http.postBuffer 524288000 && \
+    git config --global http.maxRequestBuffer 100M
 
 # Create a non-root user
 RUN useradd -m sduser
 
-# Clone the repository
-RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui /stable-diffusion-webui
+# Set the repository URL as an argument
+ARG REPO_URL=https://github.com/AUTOMATIC1111/stable-diffusion-webui
 
-# Set the working directory
+# Clone the repository and set the working directory
+RUN git clone $REPO_URL /stable-diffusion-webui && \
+    chown -R sduser:sduser /stable-diffusion-webui
 WORKDIR /stable-diffusion-webui
-
-# Change ownership of the directory
-RUN chown -R sduser:sduser /stable-diffusion-webui
 
 # Switch to the non-root user
 USER sduser
@@ -39,7 +38,8 @@ USER sduser
 # Make the script executable
 RUN chmod +x webui.sh
 
+# Expose the necessary port
 EXPOSE 7860
 
-# Set the entrypoint to use bash
+# Set the entrypoint to use bash and run the webui.sh script
 ENTRYPOINT ["bash", "webui.sh"]
