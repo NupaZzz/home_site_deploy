@@ -9,6 +9,7 @@ RUN apt-get update &&\
     libgl1 \
     libglib2.0-0 \
     bash \
+    libtcmalloc-minimal4 \
     google-perftools &&\
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
