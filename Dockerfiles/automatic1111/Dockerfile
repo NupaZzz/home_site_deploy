@@ -10,7 +10,8 @@ RUN apt-get update &&\
     libglib2.0-0 \
     bash \
     libtcmalloc-minimal4 \
-    google-perftools &&\
+    google-perftools\
+    libgoogle-perftools-dev &&\
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Create a symlink for libtcmalloc
