@@ -37,12 +37,4 @@ resource "docker_container" "automatic" {
     host_path      = "C:\\Users\\Arinka\\stable-diffusion-webui\\models"
     container_path = "/stable-diffusion-webui/models"
   }
-
-  healthcheck {
-    test         = ["CMD-SHELL", "curl -f http://localhost:7860 || exit 1"]
-    interval     = "30s"
-    timeout      = "10s"
-    retries      = 3
-    start_period = "10s"
-  }
 }
