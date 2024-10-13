@@ -3,6 +3,7 @@ FROM python:3.10.6-slim-buster
 # Install required packages and bash
 RUN apt-get update &&\
     apt-get install -y\
+    debconf\
     wget \
     git \
     python3-venv \
@@ -15,7 +16,7 @@ RUN apt-get update &&\
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Create a symlink for libtcmalloc
-RUN ln -s /usr/lib/x86_64-linux-gnu/libtcmalloc_minimal.so.4 /usr/lib/x86_64-linux-gnu/libtcmalloc.so
+# RUN ln -s /usr/lib/x86_64-linux-gnu/libtcmalloc_minimal.so.4 /usr/lib/x86_64-linux-gnu/libtcmalloc.so
 
 # Test config for git
 RUN git config --global http.postBuffer 524288000 && git config --global http.maxRequestBuffer 100M
