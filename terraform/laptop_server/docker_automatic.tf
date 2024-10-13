@@ -22,7 +22,7 @@ resource "docker_container" "automatic" {
   image    = docker_image.automatic.name
   name     = "automatic"
   hostname = "automatic"
-  gpus     = "all"
+  gpus     = "1"
 
   ports {
     internal = 7860
@@ -30,8 +30,7 @@ resource "docker_container" "automatic" {
   }
 
   env = [
-    "COMMANDLINE_ARGS=--listen --allow-code --xformers --skip-torch-cuda-test --no-half-vae --api --theme dark",
-    "CUDA_VISIBLE_DEVICES=1"
+    "COMMANDLINE_ARGS=--listen --allow-code --xformers --skip-torch-cuda-test --no-half-vae --api --theme dark"
   ]
 
   volumes {
