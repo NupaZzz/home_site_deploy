@@ -10,19 +10,13 @@ resource "null_resource" "remove_pihole_container" {
 
 resource "null_resource" "remove_pihole_image" {
   provisioner "local-exec" {
-    command = "docker rmi pihole/pihole:latest || true"
+    command = "docker rmi ${var.pihole_container_name}/${var.pihole_container_name}:${var.pihole_tag} || true"
   }
-
   depends_on = [null_resource.remove_pihole_container]
-
-  lifecycle {
-    create_before_destroy = true
-  }
 }
 
 resource "docker_image" "pihole" {
-  name       = "pihole/pihole:latest"
-  keep_locally = false
+  name       = "${var.pihole_container_name}/${var.pihole_container_name}:${var.pihole_tag}"
   depends_on = [null_resource.remove_pihole_image]
 }
 
@@ -35,46 +29,46 @@ resource "docker_container" "pihole" {
   hostname   = "pihole_local"
 
   ports {
-    internal = 53
-    external = 53
+    internal = var.pihole_dns_port_in
+    external = var.pihole_dns_port_ext
     protocol = "tcp"
   }
 
   ports {
-    internal = 53
-    external = 53
+    internal = var.pihole_dns_port_in
+    external = var.pihole_dns_port_ext
     protocol = "udp"
   }
 
   ports {
-    internal = 67
-    external = 67
+    internal = var.pihole_dhcp_port_in
+    external = var.pihole_dhcp_port_ext
     protocol = "udp"
   }
 
   ports {
-    internal = 80
-    external = 80
+    internal = var.pihole_http_port_in
+    external = var.pihole_http_port_ext
     protocol = "tcp"
   }
 
-  env = {
-    TZ                  = "Europe/Minsk"
-    WEBPASSWORD         = var.pihole_web_password
-    DNSMASQ_LISTENING   = "single"
-    DNS_FQDN_REQUIRED   = "true"
-    DNS_BOGUS_PRIV      = "true"
-    DNSSEC              = var.pihole_dnssec
-    PIHOLE_DNS_         = var.pihole_dns
-    WEBTHEME            = "default-darker"
-  }
+  env = [
+    "TZ=Europe/Minsk",
+    "WEBPASSWORD=${var.pihole_web_password}",
+    "DNSMASQ_LISTENING=single",
+    "DNS_FQDN_REQUIRED=true",
+    "DNS_BOGUS_PRIV=true",
+    "DNSSEC=${var.pihole_dnssec}",
+    "PIHOLE_DNS_=${var.pihole_dns}",
+    "WEBTHEME=default-darker"
+  ]
 
   capabilities {
     add = ["NET_ADMIN"]
   }
 
-  memory     = 256 * 1024 * 1024
-  cpu_shares = 512
+  memory     = var.pihole_docker_ram
+  cpu_shares = var.pihole_docker_cpu
 
   volumes {
     host_path      = var.pihole_volumes_host

@@ -157,7 +157,7 @@ variable "pihole_dns" {
 
 variable "pihole_dnssec" {
   description = "DNSSEC configuration for the pihole"
-  type        = string
+  type        = bool
 }
 
 variable "pihole_volumes_host" {
@@ -168,4 +168,49 @@ variable "pihole_volumes_host" {
 variable "pihole_volumes_docker" {
   description = "Container path for the pihole volumes"
   type        = string
+}
+
+variable "pihole_tag" {
+  description = "Tag for the pihole image"
+  type        = string
+}
+
+variable "pihole_docker_ram" {
+  description = "RAM limit for the pihole container"
+  type        = number
+}
+
+variable "pihole_docker_cpu" {
+  description = "CPU limit for the pihole container"
+  type        = number
+}
+
+variable "pihole_http_port_ext" {
+  description = "External port for the pihole HTTP server"
+  type        = number
+}
+
+variable "pihole_http_port_in" {
+  description = "Internal port for the pihole HTTP server"
+  type        = number
+}
+
+variable "pihole_dns_port_ext" {
+  description = "External port for the pihole DNS server"
+  type        = number
+}
+
+variable "pihole_dns_port_in" {
+  description = "Internal port for the pihole DNS server"
+  type        = number
+}
+
+variable "pihole_dhcp_port_ext" {
+  description = "External port for the pihole DHCP server"
+  type        = number
+}
+
+variable "pihole_dhcp_port_in" {
+  description = "Internal port for the pihole DHCP server"
+  type        = number
 }
