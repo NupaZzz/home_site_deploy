@@ -8,12 +8,6 @@ resource "null_resource" "grafana_remove_existing_container" {
   }
 }
 
-resource "null_resource" "remove_existing_image_grafana" {
-  provisioner "local-exec" {
-    command = "docker rmi -f grafana || true"
-  }
-}
-
 resource "docker_container" "grafana" {
   depends_on = [null_resource.grafana_remove_existing_container]
   provider   = docker.laptop_server
