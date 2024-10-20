@@ -25,7 +25,7 @@
 - name: Synchronize Terraform files to localhost
   ansible.builtin.synchronize:
     mode: push
-    src: /home/asus/actions-runner_1/_work/home_site_deploy/home_site_deploy/terraform/
+    src: /home/asus/actions-runner_1/_work/home_site_deploy/home_site_deploy/terraform/laptop_server
     dest: "{{ terraform_directory }}"
     rsync_opts:
       - "--chmod=0644"
