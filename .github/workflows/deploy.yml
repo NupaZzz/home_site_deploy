@@ -15,11 +15,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Linting Terraform
+      - name: Linting Terraform  
         uses: terraform-linters/setup-tflint@v4
         with:
           tflint_version: latest
-
+      
       - name: Run TFLint
         run: tflint
         working-directory: terraform
@@ -39,7 +39,7 @@ jobs:
       - name: Check for Dockerfile changes
         id: dockerfile_changed
         run: |
-          git diff --quiet HEAD^ HEAD -- Dockerfiles/automatic1111/Dockerfile
+          git diff --exit-code HEAD^ HEAD -- Dockerfiles/automatic1111/Dockerfile
         continue-on-error: true
 
       - name: Set up Docker Buildx
@@ -67,7 +67,7 @@ jobs:
 
       - name: Build Docker image
         id: docker_build
-        if: success()
+        if: steps.dockerfile_changed.outcome == 'success'
         uses: docker/build-push-action@v6
         with:
           push: true
@@ -76,7 +76,6 @@ jobs:
           tags: |
             ghcr.io/${{ env.OWNER_LC }}/${{ env.IMAGE_NAME }}:${{ steps.tag_version.outputs.new_tag }}
             ghcr.io/${{ env.OWNER_LC }}/${{ env.IMAGE_NAME }}:latest
-
   configure_and_deploy:
     runs-on: self-hosted
     needs: 
@@ -89,12 +88,12 @@ jobs:
 
       - name: Install Ansible if not already installed
         run: |
-          if ! command -v ansible &> /dev/null; then
-            sudo apt-get update -y
+          if ! ansible --version &> /dev/null; then
+            sudo apt-get update
             sudo apt-get install -y ansible
           else
             echo "Ansible is already installed"
-
+          fi
       - name: Run Ansible Playbook
         uses: dawidd6/action-ansible-playbook@v2
         with:
