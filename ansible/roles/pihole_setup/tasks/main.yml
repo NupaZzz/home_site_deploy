@@ -6,26 +6,29 @@
   until: pihole_info.container.State.Running
   retries: 5
   delay: 5
+  failed_when: not pihole_info.container.State.Running
 
-- name: Make scripts executable in docker
+- name: Make scripts executable in docker if not already executable
   community.docker.docker_container_exec:
     container: pihole
     command: chmod +x 10-adlists.sh
     chdir: /etc/cont-init.d
   when: pihole_info.container.State.Running
 
-- name: Make gravity.sh executable
+- name: Ensure gravity.sh is executable
   ansible.builtin.file:
     path: "{{ terraform_directory }}/scripts/gravity.sh"
     mode: '0755'
+  register: gravity_file
 
-- name: Add "pihole update gravity" script to cron
+- name: Add "pihole update gravity" script to cron if gravity.sh is executable
   cron:
     name: "pihole-update-gravity"
     user: root
     minute: "0"
     hour: "0"
     job: "{{ terraform_directory }}/scripts/gravity.sh"
+  when: gravity_file.changed
 
 - name: Ensure /var/log/pihole directory exists
   ansible.builtin.file:
