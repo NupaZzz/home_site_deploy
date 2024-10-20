@@ -48,5 +48,5 @@ resource "docker_container" "my_app" {
   }
   
   memory = 1024
-  cpu_shares = 0.25
+  cpu_shares = 256
 }
