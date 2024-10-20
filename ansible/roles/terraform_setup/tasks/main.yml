@@ -41,21 +41,21 @@
 - name: Terraform Init
   ansible.builtin.shell: terraform init
   args:
-    chdir: "{{ terraform_directory }}/terraform"
+    chdir: "{{ terraform_directory }}/laptop_server"
   register: terraform_init
   failed_when: terraform_init.rc != 0
 
 - name: Terraform Plan
   ansible.builtin.shell: terraform plan -var "git_token={{ git_token }}" -var "pihole_web_password={{ pihole_web_password }}"
   args:
-    chdir: "{{ terraform_directory }}/terraform"
+    chdir: "{{ terraform_directory }}/laptop_server"
   register: terraform_plan
   failed_when: terraform_plan.rc != 0
 
 - name: Terraform Apply
   ansible.builtin.shell: terraform apply -var "git_token={{ git_token }}" -var "pihole_web_password={{ pihole_web_password }}" -auto-approve
   args:
-    chdir: "{{ terraform_directory }}/terraform"
+    chdir: "{{ terraform_directory }}/laptop_server"
   async: 600
   poll: 0
   register: terraform_apply
