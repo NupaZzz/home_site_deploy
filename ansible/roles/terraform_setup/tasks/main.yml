@@ -22,30 +22,48 @@
       - docker.io
     state: present
 
-- name: Copy Terraform files to localhost
-  ansible.builtin.copy:
-    src: /home/asus/actions-runner_1/_work/home_site_deploy/home_site_deploy/terraform
+- name: Synchronize Terraform files to localhost
+  ansible.builtin.synchronize:
+    mode: push
+    src: /home/asus/actions-runner_1/_work/home_site_deploy/home_site_deploy/terraform/
     dest: "{{ terraform_directory }}"
-    mode: '0644'
+    rsync_opts:
+      - "--chmod=0644"
 
-- name: Copy scripts from pihole to localhost
-  ansible.builtin.copy:
-    src: /home/asus/actions-runner_1/_work/home_site_deploy/home_site_deploy/scripts
+- name: Synchronize scripts from pihole to localhost
+  ansible.builtin.synchronize:
+    mode: push
+    src: /home/asus/actions-runner_1/_work/home_site_deploy/home_site_deploy/scripts/
     dest: "{{ terraform_directory }}"
-    mode: '0644'
+    rsync_opts:
+      - "--chmod=0644"
 
 - name: Terraform Init
-  command: terraform init
+  ansible.builtin.shell: terraform init
   args:
     chdir: "{{ terraform_directory }}/terraform/laptop_server"
+  register: terraform_init
+  failed_when: terraform_init.rc != 0
 
 - name: Terraform Plan
-  command: terraform plan -var "git_token={{ git_token }}" -var "pihole_web_password={{ pihole_web_password }}"
+  ansible.builtin.shell: terraform plan -var "git_token={{ git_token }}" -var "pihole_web_password={{ pihole_web_password }}"
   args:
     chdir: "{{ terraform_directory }}/terraform/laptop_server"
+  register: terraform_plan
+  failed_when: terraform_plan.rc != 0
 
 - name: Terraform Apply
-  command: terraform apply -var "git_token={{ git_token }}" -var "pihole_web_password={{ pihole_web_password }}" -auto-approve
+  ansible.builtin.shell: terraform apply -var "git_token={{ git_token }}" -var "pihole_web_password={{ pihole_web_password }}" -auto-approve
   args:
     chdir: "{{ terraform_directory }}/terraform/laptop_server"
   async: 600
+  poll: 0
+  register: terraform_apply
+
+- name: Wait for Terraform Apply to finish
+  ansible.builtin.async_status:
+    jid: "{{ terraform_apply.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 60
+  delay: 10
