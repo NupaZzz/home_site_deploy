@@ -39,7 +39,7 @@ jobs:
       - name: Check for Dockerfile changes
         id: dockerfile_changed
         run: |
-          git diff --quiet HEAD^ HEAD -- Dockerfiles/ || echo "Dockerfile changed" > change.txt
+          git diff --quiet HEAD^ HEAD -- Dockerfiles/automatic1111/Dockerfile
         continue-on-error: true
 
       - name: Set up Docker Buildx
