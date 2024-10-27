@@ -10,7 +10,7 @@ resource "null_resource" "prom_remove_existing_container" {
 
 resource "null_resource" "remove_existing_image_prom" {
   provisioner "local-exec" {
-    command = "docker rmi -f ${var.prom_image_name}:${var.prom_image_tag} || true"
+    command = "docker rmi -f ${var.prom_image_name} || true"
   }
 }
 
