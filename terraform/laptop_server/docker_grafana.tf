@@ -1,10 +1,10 @@
 resource "docker_image" "grafana" {
-  name = "grafana/grafana:latest"
+  name = "${var.grafana_container_name}/${var.grafana_container_name}:${var.grafana_tag}"
 }
 
 resource "null_resource" "grafana_remove_existing_container" {
   provisioner "local-exec" {
-    command = "docker rm -f grafana || true"
+    command = "docker rm -f ${var.grafana_container_name}|| true"
   }
 }
 
@@ -13,20 +13,20 @@ resource "docker_container" "grafana" {
   provider   = docker.laptop_server
 
   image = docker_image.grafana.image_id
-  name  = "grafana"
+  name  = "${var.grafana_container_name}"
   ports {
-    internal = 3000
-    external = 3000
+    internal = var.grafana_internal_port
+    external = var.grafana_external_port
   }
 
   networks_advanced {
     name         = var.docker_app_network
-    ipv4_address = "172.18.0.13"
+    ipv4_address = var.grafana_container_ip
   }
 
   volumes {
-    container_path = "/var/lib/grafana"
-    host_path      = "/opt/project_site/grafana"
+    container_path = var.grafana_container_path
+    host_path      = var.grafana_host_path
   }
 }
 

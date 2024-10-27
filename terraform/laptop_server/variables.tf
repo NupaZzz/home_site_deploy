@@ -214,3 +214,38 @@ variable "pihole_dhcp_port_in" {
   description = "Internal port for the pihole DHCP server"
   type        = number
 }
+
+variable "grafana_container_name" {
+  description = "Name of the grafana container"
+  type        = string
+}
+
+variable "grafana_tag" {
+  description = "Tag of the grafana image"
+  type        = string
+}
+
+variable "grafana_internal_port" {
+  description = "Internal port for the grafana server"
+  type        = number
+}
+
+variable "grafana_external_port" {
+  description = "External port for the grafana server"
+  type        = number
+}
+
+variable "grafana_container_ip" {
+  description = "IP address of the grafana container"
+  type        = string
+}
+
+variable "grafana_host_path" {
+  description = "Path to the grafana host directory"
+  type        = string
+}
+
+variable "grafana_container_path" {
+  description = "Path to the grafana container directory"
+  type = string
+}

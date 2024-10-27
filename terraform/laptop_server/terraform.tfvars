@@ -46,3 +46,12 @@ pihole_http_port_in   = "80"
 pihole_http_port_ext  = "80"
 pihole_docker_cpu     = "512"
 pihole_docker_ram     = "268435456"
+
+### GRAFANA VARS ###
+grafana_container_name = "grafana"
+grafana_tag            = "latest"
+grafana_internal_port  = "3000"
+grafana_external_port  = "3000"
+grafana_container_ip   = "172.18.0.13"
+grafana_host_path      = "/opt/project_site/grafana"
+grafana_container_path = "/var/lib/grafana"
