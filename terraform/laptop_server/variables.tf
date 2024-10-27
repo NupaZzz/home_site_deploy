@@ -247,5 +247,5 @@ variable "grafana_host_path" {
 
 variable "grafana_container_path" {
   description = "Path to the grafana container directory"
-  type = string
+  type        = string
 }

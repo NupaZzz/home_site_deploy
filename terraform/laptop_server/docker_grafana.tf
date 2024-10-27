@@ -13,7 +13,7 @@ resource "docker_container" "grafana" {
   provider   = docker.laptop_server
 
   image = docker_image.grafana.image_id
-  name  = "${var.grafana_container_name}"
+  name  = var.grafana_container_name
   ports {
     internal = var.grafana_internal_port
     external = var.grafana_external_port

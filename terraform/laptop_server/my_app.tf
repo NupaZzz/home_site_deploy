@@ -46,7 +46,7 @@ resource "docker_container" "my_app" {
     name         = var.docker_app_network
     ipv4_address = var.app_container_ip
   }
-  
-  memory = 1024
+
+  memory     = 1024
   cpu_shares = 256
 }
