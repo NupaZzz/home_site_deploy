@@ -30,18 +30,30 @@ resource "docker_container" "grafana" {
   }
 }
 
-resource "null_resource" "configure_grafana" {
+resource "null_resource" "configure_grafana_node_exporter" {
   depends_on = [docker_container.grafana]
 
   provisioner "local-exec" {
     command = <<EOT
       sleep 10
+      # Adding Prometheus as a data source
       curl -X POST http://admin:admin@localhost:3000/api/datasources \
         -H "Content-Type: application/json" \
         -d '{
           "name": "Prometheus",
           "type": "prometheus",
           "url": "http://${var.prom_container_ip}:${var.prom_external_port}",
+          "access": "proxy",
+          "basicAuth": false
+        }'
+
+      # Adding Node Exporter as a data source
+      curl -X POST http://admin:admin@localhost:3000/api/datasources \
+        -H "Content-Type: application/json" \
+        -d '{
+          "name": "Node Exporter",
+          "type": "prometheus",
+          "url": "http://172.18.0.14:9100",
           "access": "proxy",
           "basicAuth": false
         }'
