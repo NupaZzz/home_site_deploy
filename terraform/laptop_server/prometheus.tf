@@ -48,8 +48,8 @@ scrape_configs:
       - targets: ['${var.app_container_ip}:${var.port}']
 
   - job_name: 'node_exporter'
-      static_configs:
-        - targets: ['172.18.0.14:9100']
+    static_configs:
+      - targets: ['172.18.0.14:9100']
 EOF
   filename = "/opt/project_site/prometheus.yml"
 }
