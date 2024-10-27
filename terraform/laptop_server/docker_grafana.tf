@@ -54,7 +54,7 @@ resource "null_resource" "configure_grafana_node_exporter" {
         -d '{
           "name": "Node Exporter",
           "type": "prometheus",
-          "url": "http://172.18.0.14:9100",
+          "url": "http://${var.node_exporter_container_ip}:${var.node_exporter_internal_port}",
           "access": "proxy",
           "basicAuth": false
         }'

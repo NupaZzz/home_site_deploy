@@ -249,3 +249,33 @@ variable "grafana_container_path" {
   description = "Path to the grafana container directory"
   type        = string
 }
+
+variable "node_exporter_container_name" {
+  description = "Name of the node exporter container"
+  type        = string
+}
+
+variable "node_exporter_tag" {
+  description = "Tag of the node exporter image"
+  type        = string
+}
+
+variable "node_exporter_container_ip" {
+  description = "IP address of the node exporter container"
+  type        = string
+}
+
+variable "node_exporter_internal_port" {
+  description = "Internal port for the node exporter server"
+  type        = number
+}
+
+variable "node_exporter_external_port" {
+  description = "External port for the node exporter server"
+  type        = number
+}
+
+variable "node_exporter_image_name" {
+  description = "Name of the node exporter image"
+  type        = string
+}

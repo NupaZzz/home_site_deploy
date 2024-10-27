@@ -55,3 +55,11 @@ grafana_external_port  = "3000"
 grafana_container_ip   = "172.18.0.13"
 grafana_host_path      = "/opt/project_site/grafana"
 grafana_container_path = "/var/lib/grafana"
+
+### NODE EXPORTER VARS ###
+node_exporter_image_name     = "prom/node_exporter"
+node_exporter_container_name = "node-exporter"
+node_exporter_tag            = "latest"
+node_exporter_container_ip   = "172.18.0.14"
+node_exporter_internal_port  = "9100"
+node_exporter_external_port  = "9100"

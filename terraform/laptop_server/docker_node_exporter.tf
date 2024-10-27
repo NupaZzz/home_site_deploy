@@ -1,10 +1,10 @@
 resource "docker_image" "node_exporter" {
-  name = "prom/node-exporter:latest"
+  name = "${var.node_exporter_image_name}:${var.node_exporter_tag}"
 }
 
 resource "null_resource" "node_exporter_remove_existing_container" {
   provisioner "local-exec" {
-    command = "docker rm -f node_exporter || true"
+    command = "docker rm -f ${var.node_exporter_container_name} || true"
   }
 }
 
@@ -13,14 +13,14 @@ resource "docker_container" "node_exporter" {
   provider   = docker.laptop_server
 
   image = docker_image.node_exporter.image_id
-  name  = "node_exporter"
+  name  = var.node_exporter_container_name
   ports {
-    internal = 9100
-    external = 9100
+    internal = var.node_exporter_internal_port
+    external = var.node_exporter_external_port
   }
 
   networks_advanced {
     name         = var.docker_app_network
-    ipv4_address = "172.18.0.14"
+    ipv4_address = var.node_exporter_container_ip
   }
 }
