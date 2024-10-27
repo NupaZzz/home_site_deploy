@@ -1,5 +1,5 @@
 resource "docker_image" "node_exporter" {
-  name = "node_exporter:latest"
+  name = "prom/node-exporter:latest"
 }
 
 resource "null_resource" "node_exporter_remove_existing_container" {
