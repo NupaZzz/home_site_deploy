@@ -36,7 +36,8 @@ resource "null_resource" "configure_grafana_node_exporter" {
   provisioner "local-exec" {
     command = <<EOT
       sleep 10
-      # Adding Prometheus as a data source
+
+      # Добавление Prometheus в качестве источника данных
       curl -X POST http://admin:admin@localhost:3000/api/datasources \
         -H "Content-Type: application/json" \
         -d '{
@@ -47,7 +48,7 @@ resource "null_resource" "configure_grafana_node_exporter" {
           "basicAuth": false
         }'
 
-      # Adding Node Exporter as a data source
+      # Добавление Node Exporter как источника данных
       curl -X POST http://admin:admin@localhost:3000/api/datasources \
         -H "Content-Type: application/json" \
         -d '{
@@ -57,6 +58,25 @@ resource "null_resource" "configure_grafana_node_exporter" {
           "access": "proxy",
           "basicAuth": false
         }'
+
+      # Импорт дашборда Node Exporter для мониторинга системных метрик
+      curl -X POST http://admin:admin@localhost:3000/api/dashboards/import \
+        -H "Content-Type: application/json" \
+        -d '{
+          "dashboard": {
+            "id": 1860
+          },
+          "overwrite": true,
+          "inputs": [
+            {
+              "name": "DS_PROMETHEUS",
+              "type": "datasource",
+              "pluginId": "prometheus",
+              "value": "Node Exporter"
+            }
+          ]
+        }'
     EOT
   }
 }
+
